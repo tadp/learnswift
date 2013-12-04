@@ -25,6 +25,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  before_filter :set_locale
   before_filter :set_mobile_view
   before_filter :inject_preview_style
   before_filter :disable_customization
@@ -33,7 +34,6 @@ class ApplicationController < ActionController::Base
   before_filter :store_incoming_links
   before_filter :preload_json
   before_filter :check_xhr
-  before_filter :set_locale
   before_filter :redirect_to_login_if_required
 
   rescue_from Exception do |exception|
@@ -274,8 +274,8 @@ class ApplicationController < ActionController::Base
     end
 
     def build_not_found_page(status=404, layout=false)
-      @top_viewed = TopicQuery.top_viewed(10)
-      @recent = TopicQuery.recent(10)
+      @top_viewed = Topic.top_viewed(10)
+      @recent = Topic.recent(10)
       @slug =  params[:slug].class == String ? params[:slug] : ''
       @slug =  (params[:id].class == String ? params[:id] : '') if @slug.blank?
       @slug.gsub!('-',' ')
