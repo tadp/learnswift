@@ -3,6 +3,7 @@ Discourse::Application.configure do
 
   # Code is not reloaded between requests
   config.cache_classes = true
+  config.eager_load = true
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
@@ -11,8 +12,12 @@ Discourse::Application.configure do
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets = true
 
-  # Compress JavaScripts and CSS
-  config.assets.compress = true
+  if rails4?
+    config.assets.js_compressor  = :uglifier
+    config.assets.css_compressor = :sass
+  else
+    config.assets.compress = true
+  end
 
   # stuff should be pre-compiled
   config.assets.compile = true
@@ -27,19 +32,6 @@ Discourse::Application.configure do
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true
 
-
-  # you may use other configuration here for mail eg: sendgrid
-
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  #   :address              => "smtp.sendgrid.net",
-  #   :port                 => 587,
-  #   :domain               => 'YOUR DOMAIN',
-  #   :user_name            => 'YOUR_USER',
-  #   :password             => 'YOUR_PASSWORD',
-  #   :authentication       => 'plain',
-  #   :enable_starttls_auto => true  }
-
   ActionMailer::Base.smtp_settings = {
     :address        => 'smtp.sendgrid.net',
     :port           => '587',
@@ -50,30 +42,24 @@ Discourse::Application.configure do
     :enable_starttls_auto => true
   }
 
-  config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.sendmail_settings = {arguments: '-i'}
-
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
   # this will cause all handlebars templates to be pre-compiles, making your page faster
   config.handlebars.precompile = true
 
-  # this setting enables rack_cache so it caches various requests in redis
-  config.enable_rack_cache = true
-
   # allows admins to use mini profiler
-  config.enable_mini_profiler = true
-
-  # allows Cross-origin resource sharing (CORS) for API access in JavaScript (default to false for security).
-  # See the initializer and https://github.com/cyu/rack-cors for configuration documentation.
-  #
-  # config.enable_rack_cors = false
-  # config.rack_cors_origins = ['*']
-  # config.rack_cors_resource = ['*', { :headers => :any, :methods => [:get, :post, :options] }]
+  config.enable_mini_profiler = !ENV["DISABLE_MINI_PROFILER"]
 
   # Discourse strongly recommend you use a CDN.
   # For origin pull cdns all you need to do is register an account and configure
-  # config.action_controller.asset_host = "http://YOUR_CDN_HERE"
+  config.action_controller.asset_host = ENV["CDN_URL"] if ENV["CDN_URL"]
+
+  # a comma delimited list of emails your devs have
+  # developers have god like rights and may impersonate anyone in the system
+  # normal admins may only impersonate other moderators (not admins)
+  if emails = ENV["DEVELOPER_EMAILS"]
+    config.developer_emails = emails.split(",")
+  end
 
 end
