@@ -42,6 +42,21 @@ Discourse::Application.configure do
     :enable_starttls_auto => true
   }
 
+  # Discourse master. Requires hard coding values in a file. Not 12 factor.
+  # if GlobalSetting.smtp_address
+  #   config.action_mailer.smtp_settings = {
+  #     address:              GlobalSetting.smtp_address,
+  #     port:                 GlobalSetting.smtp_port,
+  #     domain:               GlobalSetting.smtp_domain,
+  #     user_name:            GlobalSetting.smtp_password,
+  #     authentication:       'plain',
+  #     enable_starttls_auto: GlobalSetting.smtp_enable_start_tls
+  #   }
+  # else
+  #   config.action_mailer.delivery_method = :sendmail
+  #   config.action_mailer.sendmail_settings = {arguments: '-i'}
+  # end
+
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
@@ -49,16 +64,16 @@ Discourse::Application.configure do
   config.handlebars.precompile = true
 
   # allows admins to use mini profiler
-  config.enable_mini_profiler = !ENV["DISABLE_MINI_PROFILER"]
+  config.enable_mini_profiler = GlobalSetting.enable_mini_profiler
 
   # Discourse strongly recommend you use a CDN.
   # For origin pull cdns all you need to do is register an account and configure
-  config.action_controller.asset_host = ENV["CDN_URL"] if ENV["CDN_URL"]
+  config.action_controller.asset_host = GlobalSetting.cdn_url
 
   # a comma delimited list of emails your devs have
   # developers have god like rights and may impersonate anyone in the system
   # normal admins may only impersonate other moderators (not admins)
-  if emails = ENV["DEVELOPER_EMAILS"]
+  if emails = GlobalSetting.developer_emails
     config.developer_emails = emails.split(",")
   end
 
