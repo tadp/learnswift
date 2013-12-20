@@ -32,6 +32,7 @@ Discourse::Application.configure do
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true
 
+<<<<<<< HEAD
   ActionMailer::Base.smtp_settings = {
     :address        => 'smtp.sendgrid.net',
     :port           => '587',
@@ -44,7 +45,7 @@ Discourse::Application.configure do
 
   # Discourse master. Requires hard coding values in a file. Not 12 factor.
   # if GlobalSetting.smtp_address
-  #   config.action_mailer.smtp_settings = {
+  #   settings = {
   #     address:              GlobalSetting.smtp_address,
   #     port:                 GlobalSetting.smtp_port,
   #     domain:               GlobalSetting.smtp_domain,
@@ -52,6 +53,8 @@ Discourse::Application.configure do
   #     authentication:       'plain',
   #     enable_starttls_auto: GlobalSetting.smtp_enable_start_tls
   #   }
+
+  #   config.action_mailer.smtp_settings = settings.reject{|x,y| y.nil?}
   # else
   #   config.action_mailer.delivery_method = :sendmail
   #   config.action_mailer.sendmail_settings = {arguments: '-i'}
