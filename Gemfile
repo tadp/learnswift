@@ -213,10 +213,6 @@ gem 'unicorn-worker-killer'
 gem 'newrelic_rpm'
 gem 'honeybadger'
 
-# required for feed importing and embedding
-gem 'ruby-readability', require: false
-gem 'feedzirra', require: false
-
 # perftools only works on 1.9 atm
 group :profile do
   # travis refuses to install this, instead of fuffing, just avoid it for now
