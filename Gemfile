@@ -206,7 +206,7 @@ gem 'rack-mini-profiler',  '0.9.0.pre ', require: false
 gem 'rack-cors', require: false
 gem 'unicorn', require: false
 gem 'puma', require: false
-gem 'rbtrace', require: false
+gem 'rbtrace', require: false, platform: :mri
 
 # Heroku (but useful anywhere) stuff
 gem 'unicorn-worker-killer'
