@@ -50,7 +50,7 @@ Discourse::Application.configure do
   #     domain:               GlobalSetting.smtp_domain,
   #     user_name:            GlobalSetting.smtp_user_name,
   #     user_name:            GlobalSetting.smtp_password,
-  #     authentication:       'plain',
+      # authentication:       GlobalSetting.smtp_authentication,
   #     enable_starttls_auto: GlobalSetting.smtp_enable_start_tls
   #   }
 
