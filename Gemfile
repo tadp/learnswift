@@ -67,7 +67,7 @@ else
   gem 'active_attr'
 end
 
-gem 'redis-rails'
+#gem 'redis-rails'
 gem 'hiredis'
 gem 'redis', :require => ["redis", "redis/connection/hiredis"]
 
