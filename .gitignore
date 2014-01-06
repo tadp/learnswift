@@ -22,6 +22,7 @@ public/plugins/*
 /coverage/*
 
 /public/assets/*
+/bundle/*
 
 config/database.yml
 config/discourse.pill
